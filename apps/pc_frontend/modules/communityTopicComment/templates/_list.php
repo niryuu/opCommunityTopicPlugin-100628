@@ -10,7 +10,7 @@
 <?php foreach ($commentPager->getResults() as $comment): ?>
 <tr>
 <th rowspan=2><?php echo format_datetime($comment->getUpdatedAt(), 'f'); ?></th>
-<td><?php echo $comment->getMember()->getName().' '.link_to('削除', 'comment/delete?id='.$communityTopic->getId().'&comment_id='.$comment->getId()) ?></td>
+<td><?php echo $comment->getMember()->getName() ?><?php if ($comment->isDeletable($sf_user->getMemberId())): ?> <?php echo link_to(__('Delete'), '@communityTopic_comment_delete_confirm?id='.$comment->getId()) ?><?php endif; ?></td>
 </tr>
 <tr>
 <td class="border-left"><?php echo $comment->getBody() ?></td>

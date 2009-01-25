@@ -28,10 +28,7 @@ class communityTopicCommentActions extends sfActions
     $this->communityTopic = $this->getRoute()->getObject();
     $this->community = $this->communityTopic->getCommunity();
 
-    if ($this->community->getConfig('public_flag') === 'auth_commu_member')
-    {
-      $this->forward404Unless($this->community->isPrivilegeBelong($this->getUser()->getMemberId()));
-    }
+    $this->forward404Unless($this->community->isPrivilegeBelong($this->getUser()->getMemberId()));
 
     $this->form = new CommunityTopicCommentForm();
     $this->form->getObject()->setMemberId($this->getUser()->getMemberId());
@@ -44,5 +41,33 @@ class communityTopicCommentActions extends sfActions
     }
 
     $this->setTemplate('../../communityTopic/templates/show');
+  }
+
+  public function executeDeleteConfirm(sfWebRequest $request)
+  {
+    $this->communityTopicComment = $this->getRoute()->getObject();
+    $this->communityTopic = $this->communityTopicComment->getCommunityTopic();
+    $this->community = $this->communityTopic->getCommunity();
+
+    $this->forward404Unless($this->communityTopicComment->isDeletable($this->getUser()->getMemberId()));
+
+    $this->form = new sfForm();
+  }
+
+  public function executeDelete(sfWebRequest $request)
+  {
+    $request->checkCSRFProtection();
+
+    $this->communityTopicComment = $this->getRoute()->getObject();
+    $this->communityTopic = $this->communityTopicComment->getCommunityTopic();
+    $this->community = $this->communityTopic->getCommunity();
+
+    $this->forward404Unless($this->communityTopicComment->isDeletable($this->getUser()->getMemberId()));
+
+    $this->communityTopicComment->delete();
+
+    $this->getUser()->setFlash('notice', 'The comment was deleted successfully.');
+
+    $this->redirect($this->generateUrl('communityTopic_show', $this->communityTopic));
   }
 }

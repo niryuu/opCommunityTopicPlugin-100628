@@ -3,7 +3,7 @@ propel:
 
   community_topic:
     id: ~
-    community_id: { type: integer, required: true, foreignTable: community, foreignReference: id }
+    community_id: { type: integer, required: true, foreignTable: community, foreignReference: id, onDelete: cascade }
     member_id: { type: integer, required: true, foreignTable: member, foreignReference: id }
     name: { type: longvarchar, required: true }
     body: { type: longvarchar, required: true }
@@ -12,7 +12,7 @@ propel:
 
   community_topic_comment:
     id: ~
-    community_topic_id: { type: integer, required: true, foreignTable: community_topic, foreignReference: id }
+    community_topic_id: { type: integer, required: true, foreignTable: community_topic, foreignReference: id, onDelete: cascade }
     member_id: { type: integer, required: true, foreignTable: member, foreignReference: id }
     body: { type: longvarchar, required: true }
     created_at: ~

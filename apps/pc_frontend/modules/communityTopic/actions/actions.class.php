@@ -147,7 +147,7 @@ class communityTopicActions extends sfActions
   *
   * @param sfRequest $request A request object
   */
-  public function executeEdit($request)
+  public function executeEdit(sfWebRequest $request)
   {
     $this->communityTopic = $this->getRoute()->getObject();
     $this->community = $this->communityTopic->getCommunity();
@@ -165,7 +165,7 @@ class communityTopicActions extends sfActions
   *
   * @param sfRequest $request A request object
   */
-  public function executeUpdate($request)
+  public function executeUpdate(sfWebRequest $request)
   {
     $this->communityTopic = $this->getRoute()->getObject();
     $this->community = $this->communityTopic->getCommunity();
@@ -195,28 +195,45 @@ class communityTopicActions extends sfActions
     }
   }
 
+ /**
+  * Executes deleteConfirm action
+  *
+  * @param sfRequest $request A request object
+  */
+  public function executeDeleteConfirm(sfWebRequest $request)
+  {
+    $this->communityTopic = $this->getRoute()->getObject();
+    $this->community = $this->communityTopic->getCommunity();
+
+    $this->forward404Unless(
+         $this->community->isAdmin($this->getUser()->getMemberId())
+      || $this->communityTopic->getMemberId() === $this->getUser()->getMemberId()
+    );
+
+    $this->form = new sfForm();
+  }
 
  /**
   * Executes delete action
   *
   * @param sfRequest $request A request object
   */
-  public function executeDelete($request)
+  public function executeDelete(sfWebRequest $request)
   {
-    $this->community->checkPrivilegeBelong($this->getUser()->getMemberId());
-    if ($this->checkOwner)
-    {
-      $this->community->checkPrivilegeOwner($this->getUser()->getMemberId());
-    }
+    $request->checkCSRFProtection();
 
-    $this->comments = CommunityTopicCommentPeer::retrieveByCommunityTopicId($this->communityTopicId);
+    $this->communityTopic = $this->getRoute()->getObject();
+    $this->community = $this->communityTopic->getCommunity();
 
-    foreach ($this->comments as $comment)
-    {
-      echo $comment->delete();
-    }
+    $this->forward404Unless(
+         $this->community->isAdmin($this->getUser()->getMemberId())
+      || $this->communityTopic->getMemberId() === $this->getUser()->getMemberId()
+    );
 
     $this->communityTopic->delete();
-    $this->redirect('community/home?id='.$this->communityId);
+
+    $this->getUser()->setFlash('notice', 'The community topic was deleted successfully.');
+
+    $this->redirect('community/home?id='.$this->community->getId());
   }
 }

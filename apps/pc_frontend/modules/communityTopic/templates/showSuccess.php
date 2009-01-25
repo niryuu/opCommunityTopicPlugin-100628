@@ -5,19 +5,16 @@
 <h3><?php echo '['.$community->getName().'] '.'トピック' ?></h3>
 </div>
 
-<table><tbody>
-<tr>
-<th rowspan=2><?php echo format_datetime($communityTopic->getUpdatedAt(), 'f'); ?></th>
-<td><?php echo $communityTopic->getName(); ?></td>
-</tr>
-<tr>
-<td class="border-left"><?php echo $communityTopic->getMember()->getName(); ?></td>
-</tr>
-<tr>
-<td class="align-center" colspan=2><?php echo link_to('トピック編集', 'communityTopic/edit?id='.$communityTopic->getId()); ?></td>
-</tr>
-</tbody>
-</table>
+<dl>
+<dt><?php echo format_datetime($communityTopic->getCreatedAt(), 'f') ?></dt>
+<dd>
+<div class="title"><?php echo $communityTopic->getName() ?></div>
+<div class="name"><?php echo link_to($communityTopic->getMember()->getName(), 'member/profile?id='.$communityTopic->getMember()->getId()) ?></div>
+<div class="body"><?php echo nl2br($communityTopic->getBody()) ?></div>
+</dd>
+</dl>
+
+<div class="operation"><?php echo link_to('トピック編集', 'communityTopic/edit?id='.$communityTopic->getId()) ?></div>
 
 </div>
 </div>

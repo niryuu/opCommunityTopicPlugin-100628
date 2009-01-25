@@ -14,7 +14,7 @@
 <?php endforeach; ?>
 <li><?php echo link_to('もっと読む', 'communityTopic_list_community', $community); ?></li>
 <?php endif; ?>
-<li><?php echo link_to('トピック作成', 'communityTopic/edit?community_id='.$community->getId()); ?></li>
+<li><?php echo link_to('トピック作成', 'communityTopic_new', $community); ?></li>
 </ul>
 </td>
 </tr>

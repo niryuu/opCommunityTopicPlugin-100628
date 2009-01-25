@@ -137,16 +137,10 @@ class communityTopicActions extends sfActions
     $this->form = new CommunityTopicForm();
     $this->form->getObject()->setMemberId($this->getUser()->getMemberId());
     $this->form->getObject()->setCommunity($this->community);
-    $this->form->bind($request->getParameter('community_topic'));
-    if ($this->form->isValid())
-    {
-      $communityTopic = $this->form->save();
-      $this->redirect($this->generateUrl('communityTopic_show', $communityTopic));
-    }
+    $this->processForm($request, $this->form);
 
     $this->setTemplate('new');
   }
-
 
  /**
   * Executes edit action
@@ -155,22 +149,49 @@ class communityTopicActions extends sfActions
   */
   public function executeEdit($request)
   {
-    $this->community->checkPrivilegeBelong($this->getUser()->getMemberId());
-    if ($this->checkOwner)
-    {
-      $this->community->checkPrivilegeOwner($this->getUser()->getMemberId());
-    }
+    $this->communityTopic = $this->getRoute()->getObject();
+    $this->community = $this->communityTopic->getCommunity();
 
-    $this->form = new CommunityTopicForm($this->communityTopic, array('community_id' => $this->communityId));
+    $this->forward404Unless(
+         $this->community->isAdmin($this->getUser()->getMemberId())
+      || $this->communityTopic->getMemberId() === $this->getUser()->getMemberId()
+    );
 
-    if ($request->isMethod('post'))
+    $this->form = new CommunityTopicForm($this->communityTopic);
+  }
+
+ /**
+  * Executes update action
+  *
+  * @param sfRequest $request A request object
+  */
+  public function executeUpdate($request)
+  {
+    $this->communityTopic = $this->getRoute()->getObject();
+    $this->community = $this->communityTopic->getCommunity();
+
+    $this->forward404Unless(
+         $this->community->isAdmin($this->getUser()->getMemberId())
+      || $this->communityTopic->getMemberId() === $this->getUser()->getMemberId()
+    );
+
+    $this->form = new CommunityTopicForm($this->communityTopic);
+    $this->processForm($request, $this->form);
+
+    $this->setTemplate('edit');
+  }
+
+  protected function processForm(sfWebRequest $request, sfForm $form)
+  {
+    $form->bind(
+      $request->getParameter($form->getName())
+    );
+
+    if ($form->isValid())
     {
-      $this->form->bind($request->getParameter('community_topic'));
-      if ($this->form->isValid())
-      {
-        $communityTopic = $this->form->save();
-        $this->redirect('community/home?id='.$this->communityId);
-      }
+      $communityTopic = $form->save();
+
+      $this->redirect($this->generateUrl('communityTopic_show', $communityTopic));
     }
   }
 

@@ -79,21 +79,8 @@ class communityTopicActions extends sfActions
       $this->forward404Unless($this->community->isPrivilegeBelong($this->getUser()->getMemberId()));
     }
 
-    $this->commentPager = CommunityTopicCommentPeer::getCommunityTopicCommentListPager($this->communityTopic->getId(), $request->getParameter('page'), 20);
-
     $this->form = new CommunityTopicCommentForm();
   }
-/*
-    if ($request->isMethod('post'))
-    {
-      $this->form->bind($request->getParameter('community_topic_comment'));
-      if ($this->form->isValid())
-      {
-        $communityTopicComment = $this->form->save();
-        $this->redirect('communityTopic/detail?id='.$this->communityTopicId);
-      }
-    }
-    */
 
  /**
   * Executes new action
@@ -181,20 +168,6 @@ class communityTopicActions extends sfActions
     $this->setTemplate('edit');
   }
 
-  protected function processForm(sfWebRequest $request, sfForm $form)
-  {
-    $form->bind(
-      $request->getParameter($form->getName())
-    );
-
-    if ($form->isValid())
-    {
-      $communityTopic = $form->save();
-
-      $this->redirect($this->generateUrl('communityTopic_show', $communityTopic));
-    }
-  }
-
  /**
   * Executes deleteConfirm action
   *
@@ -235,5 +208,19 @@ class communityTopicActions extends sfActions
     $this->getUser()->setFlash('notice', 'The community topic was deleted successfully.');
 
     $this->redirect('community/home?id='.$this->community->getId());
+  }
+
+  protected function processForm(sfWebRequest $request, sfForm $form)
+  {
+    $form->bind(
+      $request->getParameter($form->getName())
+    );
+
+    if ($form->isValid())
+    {
+      $communityTopic = $form->save();
+
+      $this->redirect($this->generateUrl('communityTopic_show', $communityTopic));
+    }
   }
 }

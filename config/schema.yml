@@ -4,7 +4,7 @@ propel:
   community_topic:
     id: ~
     community_id: { type: integer, required: true, foreignTable: community, foreignReference: id, onDelete: cascade }
-    member_id: { type: integer, required: true, foreignTable: member, foreignReference: id }
+    member_id: { type: integer, foreignTable: member, foreignReference: id, onDelete: setnull }
     name: { type: longvarchar, required: true }
     body: { type: longvarchar, required: true }
     created_at: ~

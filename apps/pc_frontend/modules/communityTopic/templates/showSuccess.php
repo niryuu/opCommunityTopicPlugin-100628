@@ -11,7 +11,7 @@
 <p><?php echo $communityTopic->getName() ?></p>
 </div>
 <div class="name">
-<p><?php echo link_to($communityTopic->getMember()->getName(), 'member/profile?id='.$communityTopic->getMember()->getId()) ?></p>
+<p><?php if ($_member = $communityTopic->getMember()) : ?><?php echo link_to($_member->getName(), 'member/profile?id='.$_member->getId()) ?><?php endif; ?></p>
 </div>
 <div class="body">
 <p class="text">

@@ -22,7 +22,10 @@ $options = array(
 );
 op_include_list('communityTopicList', $list, $options);
 ?>
-<?php echo pager_navigation($pager, 'diary/listCommunity?id='.$community->getId().'&page=%d', false) ?>
+
+<?php if ($pager->haveToPaginate()): ?>
+<?php op_include_pager_navigation($pager, 'communityTopic/listCommunity?id='.$community->getId().'&page=%d', array('is_total' => false)) ?>
+<?php endif; ?>
 
 <?php else: ?>
 

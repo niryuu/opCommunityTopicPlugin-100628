@@ -17,4 +17,15 @@
  */
 class communityTopicActions extends opCommunityTopicPluginTopicActions
 {
+  /**
+   * Executes list community.
+   *
+   * @param sfWebRequest $request
+   */
+  public function executeListCommunity(sfWebRequest $request)
+  {
+    $this->size = 10;
+
+    return parent::executeListCommunity($request);
+  }
 }

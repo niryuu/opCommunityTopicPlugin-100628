@@ -15,8 +15,8 @@
 <?php echo link_to($comment->getMember()->getName(), 'member/profile?id='.$comment->getMemberId()) ?><br>
 <?php echo nl2br($comment->getBody()) ?>
 <?php endforeach; ?>
+<?php if ($commentPager->haveToPaginate()): ?>
 <hr>
-<center>
 <?php op_include_pager_navigation($commentPager, '@communityTopic_show?id='.$communityTopic->getId().'&page=%d') ?>
-</center>
+<?php endif; ?>
 <?php endif; ?>

@@ -9,7 +9,7 @@
  */
 
 /**
- * opCommunityTopicPluginTopicCommentActions
+ * opCommunityTopicPluginTopicActions
  *
  * @package    OpenPNE
  * @subpackage action
@@ -18,7 +18,8 @@
  * @author     Rimpei Ogawa <ogawa@tejimaya.com>
  * @author     Shogo Kawahara <kawahara@tejimaya.net>
  */
-class opCommunityTopicPluginTopicCommentActions extends sfActions
+
+class opCommunityTopicPluginTopicActions extends sfActions
 {
   /**
    * preExecute
@@ -27,17 +28,56 @@ class opCommunityTopicPluginTopicCommentActions extends sfActions
   {
     $object = $this->getRoute()->getObject();
 
-    if ($object instanceof CommunityTopic)
+    if ($object instanceof Community)
+    {
+      $this->community = $object;
+    }
+    elseif ($object instanceof CommunityTopic)
     {
       $this->communityTopic = $object;
       $this->community = $this->communityTopic->getCommunity();
     }
-    elseif ($object instanceof CommunityTopicComment)
+  }
+
+  /**
+   * Executes listCommunity action
+   *
+   * @param sfRequest $request A request object
+   */
+  public function executeListCommunity($request)
+  {
+    $this->forward404Unless($this->community->isViewableCommunityTopic($this->getUser()->getMemberId()));
+
+    if (!$this->size)
     {
-      $this->communityTopicComment = $object;
-      $this->communityTopic = $this->communityTopicComment->getCommunityTopic();
-      $this->community = $this->communityTopic->getCommunity();
+      $this->size = 20;
     }
+
+    $this->pager = CommunityTopicPeer::getCommunityTopicListPager($this->community->getId(), $request->getParameter('page'), $this->size);
+  }
+
+  /**
+   * Executes show action
+   *
+   * @param sfRequest $request A request object
+   */
+  public function executeShow($request)
+  {
+    $this->forward404Unless($this->community->isViewableCommunityTopic($this->getUser()->getMemberId()));
+
+    $this->form = new CommunityTopicCommentForm();
+  }
+
+  /**
+   * Executes new action
+   *
+   * @param sfRequest $request A request object
+   */
+  public function executeNew($request)
+  {
+    $this->forward404Unless($this->community->isCreatableCommunityTopic($this->getUser()->getMemberId()));
+
+    $this->form = new CommunityTopicForm();
   }
 
   /**
@@ -47,48 +87,85 @@ class opCommunityTopicPluginTopicCommentActions extends sfActions
    */
   public function executeCreate($request)
   {
-    $this->forward404Unless($this->communityTopic->isCreatableCommunityTopicComment($this->getUser()->getMemberId()));
+    $this->forward404Unless($this->community->isCreatableCommunityTopic($this->getUser()->getMemberId()));
 
-    $this->form = new CommunityTopicCommentForm();
+    $this->form = new CommunityTopicForm();
     $this->form->getObject()->setMemberId($this->getUser()->getMemberId());
-    $this->form->getObject()->setCommunityTopic($this->communityTopic);
-    $this->form->bind($request->getParameter($this->form->getName()));
-    if ($this->form->isValid())
-    {
-      $this->form->save();
-      $this->redirect('@communityTopic_show?id='.$this->communityTopic->getId());
-    }
+    $this->form->getObject()->setCommunity($this->community);
+    $this->processForm($request, $this->form);
 
-    $this->setTemplate('../../communityTopic/templates/show');
+    $this->setTemplate('new');
+  }
+ 
+  /**
+   * Executes edit action
+   *
+   * @param sfRequest $request A request object
+   */
+  public function executeEdit($request)
+  {
+    $this->forward404Unless($this->communityTopic->isEditable($this->getUser()->getMemberId()));
+
+    $this->form = new CommunityTopicForm($this->communityTopic);
+  }
+ 
+  /**
+   * Executes update action
+   *
+   * @param sfRequest $request A request object
+   */
+  public function executeUpdate($request)
+  {
+    $this->forward404Unless($this->communityTopic->isEditable($this->getUser()->getMemberId()));
+
+    $this->form = new CommunityTopicForm($this->communityTopic);
+    $this->processForm($request, $this->form);
+
+    $this->setTemplate('edit');
   }
 
+
   /**
-   * Executes delete confirm action
+   * Executes deleteConfirm action
    *
-   * @param sfRequest $request A redirect object
+   * @param sfRequest $request A request object
    */
-  public function executeDeleteConfirm($request)
+  public function executeDeleteConfirm(sfWebRequest $request)
   {
-    $this->forward404Unless($this->communityTopicComment->isDeletable($this->getUser()->getMemberId()));
+    $this->forward404Unless($this->communityTopic->isEditable($this->getUser()->getMemberId()));
 
     $this->form = new sfForm();
   }
-
+ 
   /**
    * Executes delete action
    *
-   * @param sfRequest $request A redirect object
+   * @param sfRequest $request A request object
    */
   public function executeDelete($request)
   {
     $request->checkCSRFProtection();
 
-    $this->forward404Unless($this->communityTopicComment->isDeletable($this->getUser()->getMemberId()));
+    $this->forward404Unless($this->communityTopic->isEditable($this->getUser()->getMemberId()));
 
-    $this->communityTopicComment->delete();
+    $this->communityTopic->delete();
 
-    $this->getUser()->setFlash('notice', 'The comment was deleted successfully.');
+    $this->getUser()->setFlash('notice', 'The community topic was deleted successfully.');
 
-    $this->redirect('@communityTopic_show?id='.$this->communityTopic->getId());
+    $this->redirect('community/home?id='.$this->community->getId());
+  }
+
+  protected function processForm($request, sfForm $form)
+  {
+    $form->bind(
+      $request->getParameter($form->getName())
+    );
+
+    if ($form->isValid())
+    {
+      $communityTopic = $form->save();
+
+      $this->redirect('@communityTopic_show?id='.$communityTopic->getId());
+    }
   }
 }

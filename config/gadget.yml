@@ -6,9 +6,9 @@ recentCommunityTopicComment:
   component: [communityTopic, topicCommentListBox]
   config:
     col:
-      Name:      "col"
-      Caption:   "表示するトピック数"
-      FormType:  "select"
+      Name:       "col"
+      Caption:    "表示するトピック数"
+      FormType:   "select"
       ValueType:  "integer"
       IsRequired: true
       Default:    5

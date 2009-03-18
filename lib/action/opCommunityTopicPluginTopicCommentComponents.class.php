@@ -17,7 +17,7 @@
  * @author     Rimpei Ogawa <ogawa@tejimaya.com>
  * @author     Shogo Kawahara <kawahara@tejimaya.net>
  */
-class opCommunityTopicCommentComponents extends sfComponents
+abstract class opCommunityTopicCommentComponents extends sfComponents
 {
   public function executeList($request)
   {

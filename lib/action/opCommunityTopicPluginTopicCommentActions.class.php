@@ -18,7 +18,7 @@
  * @author     Rimpei Ogawa <ogawa@tejimaya.com>
  * @author     Shogo Kawahara <kawahara@tejimaya.net>
  */
-class opCommunityTopicPluginTopicCommentActions extends sfActions
+abstract class opCommunityTopicPluginTopicCommentActions extends sfActions
 {
   /**
    * preExecute
@@ -60,6 +60,8 @@ class opCommunityTopicPluginTopicCommentActions extends sfActions
     }
 
     $this->setTemplate('../../communityTopic/templates/show');
+
+    return sfView::SUCCESS;
   }
 
   /**
@@ -72,6 +74,8 @@ class opCommunityTopicPluginTopicCommentActions extends sfActions
     $this->forward404Unless($this->communityTopicComment->isDeletable($this->getUser()->getMemberId()));
 
     $this->form = new sfForm();
+
+    return sfView::SUCCESS;
   }
 
   /**

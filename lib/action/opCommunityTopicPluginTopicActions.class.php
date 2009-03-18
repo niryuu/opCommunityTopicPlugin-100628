@@ -19,23 +19,26 @@
  * @author     Shogo Kawahara <kawahara@tejimaya.net>
  */
 
-class opCommunityTopicPluginTopicActions extends sfActions
+abstract class opCommunityTopicPluginTopicActions extends sfActions
 {
   /**
    * preExecute
    */
   public function preExecute()
   {
-    $object = $this->getRoute()->getObject();
+    if ($this->getRoute() instanceof sfPropelRoute)
+    {
+      $object = $this->getRoute()->getObject();
 
-    if ($object instanceof Community)
-    {
-      $this->community = $object;
-    }
-    elseif ($object instanceof CommunityTopic)
-    {
-      $this->communityTopic = $object;
-      $this->community = $this->communityTopic->getCommunity();
+      if ($object instanceof Community)
+      {
+        $this->community = $object;
+      }
+      elseif ($object instanceof CommunityTopic)
+      {
+        $this->communityTopic = $object;
+        $this->community = $this->communityTopic->getCommunity();
+      }
     }
   }
 
@@ -53,7 +56,13 @@ class opCommunityTopicPluginTopicActions extends sfActions
       $this->size = 20;
     }
 
-    $this->pager = CommunityTopicPeer::getCommunityTopicListPager($this->community->getId(), $request->getParameter('page'), $this->size);
+    $this->pager = CommunityTopicPeer::getCommunityTopicListPager(
+      $this->community->getId(),
+      $request->getParameter('page'),
+      $this->size
+    );
+
+    return sfView::SUCCESS;
   }
 
   /**
@@ -66,6 +75,8 @@ class opCommunityTopicPluginTopicActions extends sfActions
     $this->forward404Unless($this->community->isViewableCommunityTopic($this->getUser()->getMemberId()));
 
     $this->form = new CommunityTopicCommentForm();
+
+    return sfView::SUCCESS;
   }
 
   /**
@@ -78,6 +89,8 @@ class opCommunityTopicPluginTopicActions extends sfActions
     $this->forward404Unless($this->community->isCreatableCommunityTopic($this->getUser()->getMemberId()));
 
     $this->form = new CommunityTopicForm();
+
+    return sfView::SUCCESS;
   }
 
   /**
@@ -95,6 +108,8 @@ class opCommunityTopicPluginTopicActions extends sfActions
     $this->processForm($request, $this->form);
 
     $this->setTemplate('new');
+    
+    return sfView::SUCCESS;
   }
  
   /**
@@ -107,6 +122,8 @@ class opCommunityTopicPluginTopicActions extends sfActions
     $this->forward404Unless($this->communityTopic->isEditable($this->getUser()->getMemberId()));
 
     $this->form = new CommunityTopicForm($this->communityTopic);
+    
+    return sfView::SUCCESS;
   }
  
   /**
@@ -122,6 +139,8 @@ class opCommunityTopicPluginTopicActions extends sfActions
     $this->processForm($request, $this->form);
 
     $this->setTemplate('edit');
+    
+    return sfView::SUCCESS;
   }
 
 
@@ -135,6 +154,8 @@ class opCommunityTopicPluginTopicActions extends sfActions
     $this->forward404Unless($this->communityTopic->isEditable($this->getUser()->getMemberId()));
 
     $this->form = new sfForm();
+    
+    return sfView::SUCCESS;
   }
  
   /**
@@ -153,6 +174,27 @@ class opCommunityTopicPluginTopicActions extends sfActions
     $this->getUser()->setFlash('notice', 'The community topic was deleted successfully.');
 
     $this->redirect('community/home?id='.$this->community->getId());
+  }
+
+  /**
+   * Executes recentlyTopicList
+   *
+   * @param sfRequest $request A request object
+   */
+  public function executeRecentlyTopicList($request)
+  {
+    if (!$this->size)
+    {
+      $this->size = 50;
+    }
+
+    $this->pager = CommunityTopicPeer::getRecentlyTopicListPager(
+      $this->getUser()->getMemberId(),
+      $request->getParameter('page', 1),
+      $this->size
+    );
+
+    return sfView::SUCCESS;
   }
 
   protected function processForm($request, sfForm $form)

@@ -28,4 +28,16 @@ class communityTopicActions extends opCommunityTopicPluginTopicActions
 
     return parent::executeListCommunity($request);
   }
+
+  /**
+   * Executes recently topic list.
+   *
+   * @param sfWebRequest $request
+   */
+  public function executeRecentlyTopicList(sfWebRequest $request)
+  {
+    $this->size = 10;
+
+    return parent::executeRecentlyTopicList($request);
+  }
 }

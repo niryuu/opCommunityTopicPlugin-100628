@@ -24,7 +24,10 @@ class communityTopicActions extends opCommunityTopicPluginTopicActions
    */
   public function postExecute()
   {
-    sfConfig::set('sf_nav_type', 'community');
-    sfConfig::set('sf_nav_id', $this->community->getId());
+    if ($this->community instanceof Community)
+    {
+      sfConfig::set('sf_nav_type', 'community');
+      sfConfig::set('sf_nav_id', $this->community->getId());
+    }
   }
 }

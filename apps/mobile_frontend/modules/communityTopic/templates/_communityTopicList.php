@@ -2,15 +2,15 @@
 <?php use_helper('Date') ?>
 <?php
 $list = array();
-foreach ($communityTopics as $key => $communityTopic)
+foreach ($communityTopics as $communityTopic)
 {
   $list[] = sprintf("[%s] %s",
     op_format_date($communityTopic->getUpdatedAt(), 'XShortDate'),
     link_to(sprintf("%s(%d)",
       op_truncate($communityTopic->getName(), 28),
       $communityTopic->countCommunityTopicComments()
-    ), 'communityTopic_show', $communityTopic)
-  );
+    ), 'communityTopic_show', $communityTopic
+  ));
 }
 $moreInfo = array();
 if (count($communityTopics))

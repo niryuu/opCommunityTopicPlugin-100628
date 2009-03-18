@@ -8,7 +8,17 @@
  * file and the NOTICE file that were distributed with this source code.
  */
 
-class opCommunityTopicPluginTopicComponents extends sfComponents
+/**
+ * opCommunityTopicPluginTopicComponents
+ *
+ * @package    OpenPNE
+ * @subpackage action
+ * @author     masabon
+ * @author     Kousuke Ebihara <ebihara@tejimaya.com>
+ * @author     Rimpei Ogawa <ogawa@tejimaya.com>
+ * @author     Shogo Kawahara <kawahara@tejimaya.net>
+ */
+abstract class opCommunityTopicPluginTopicComponents extends sfComponents
 {
   public function executeCommunityTopicList()
   {

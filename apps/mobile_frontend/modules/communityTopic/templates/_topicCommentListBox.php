@@ -16,6 +16,9 @@ foreach ($communityTopic as $topic)
 $options = array(
   'title' => __('Recently Posted Community Topics'),
   'border' => true,
+  'moreInfo' => array(
+    link_to(__('More'), 'communityTopic_recently_topic_list')
+  ),
 );
 op_include_list('communityList', $list, $options);
 ?>

@@ -104,7 +104,7 @@ class opCommunityTopicPluginRouteCollection extends sfRouteCollection
       $routeClass = 'sfRoute';
       if (isset($template['option']['model']))
       {
-        $routeClass = 'sfPropelRoute';
+        $routeClass = 'sfDoctrineRoute';
         $template['option']['model'] = str_replace('Topic', ucfirst($type), $template['option']['model']);
       }
 

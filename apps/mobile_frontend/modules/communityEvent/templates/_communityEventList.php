@@ -10,7 +10,7 @@ foreach ($communityEvents as $communityEvent)
     op_format_date($communityEvent->getUpdatedAt(), 'XShortDate'),
     link_to(sprintf("%s(%d)",
       op_truncate($communityEvent->getName(), 28),
-      $communityEvent->countCommunityEventComments()
+      $communityEvent->getCommunityEventComment()->count()
     ), 'communityEvent_show', $communityEvent
   ));
 }

@@ -10,7 +10,7 @@ foreach ($communityTopics as $communityTopic)
     op_format_date($communityTopic->getUpdatedAt(), 'XShortDate'),
     link_to(sprintf("%s(%d)",
       op_truncate($communityTopic->getName(), 28),
-      $communityTopic->countCommunityTopicComments()
+      $communityTopic->getCommunityTopicComment()->count()
     ), 'communityTopic_show', $communityTopic
   ));
 }

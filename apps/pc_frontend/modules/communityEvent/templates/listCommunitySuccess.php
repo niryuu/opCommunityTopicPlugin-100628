@@ -25,7 +25,7 @@ op_include_parts('buttonBox', 'communityEventList', array(
 <?php foreach ($pager->getResults() as $event): ?>
 <dl>
 <dt><?php echo format_datetime($event->getUpdatedAt(), 'f') ?></dt>
-<dd><?php echo link_to(sprintf($event->getName().'(%d)', $event->countCommunityEventComments()), 'communityEvent_show', $event) ?></dd>
+<dd><?php echo link_to(sprintf($event->getName().'(%d)', $event->getCommunityEventComment()->count()), 'communityEvent_show', $event) ?></dd>
 </dl>
 <?php endforeach; ?>
 

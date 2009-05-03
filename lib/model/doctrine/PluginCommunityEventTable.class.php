@@ -49,9 +49,9 @@ class PluginCommunityEventTable extends Doctrine_Table
 
   public function retrivesByMemberId($memberId, $limit = 5)
   {
-    $communityIds = CommunityPeer::getIdsByMemberId($memberId);
+    $communityIds = Doctrine::getTable('Community')->getIdsByMemberId($memberId);
     return $this->createQuery()
-      ->whereIn('community_id IN (?)', $communityIds)
+      ->whereIn('community_id', $communityIds)
       ->limit($limit)
       ->orderBy('updated_at')
       ->execute();
@@ -59,9 +59,9 @@ class PluginCommunityEventTable extends Doctrine_Table
 
   public function getRecentlyEventListPager($memberId, $page = 1, $size = 50)
   {
-    $communityIds = CommunityPeer::getIdsByMemberId($memberId);
+    $communityIds = Doctrine::getTable('Community')->getIdsByMemberId($memberId);
     $q = $this->createQuery()
-      ->where('community_id IN (?)', $communityIds)
+      ->whereIn('community_id', $communityIds)
       ->orderBy('updated_at');
 
     $pager = new sfDoctrinePager('CommunityEvent', $size);

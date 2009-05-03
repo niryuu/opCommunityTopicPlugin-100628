@@ -34,15 +34,14 @@ abstract class PluginCommunityTopic extends BaseCommunityTopic
 
   public function isTopicModified()
   {
-    return (
-      $this->isColumnModified(CommunityTopicPeer::NAME) ||
-      $this->isColumnModified(CommunityTopicPeer::BODY)
-    );
+    $modified = $this->getModified();
+    return ($modified['name'] || $modified['body']);
   }
 
   public function preSave()
   {
-    if ($this->isTopicModified() && !$this->isColumnModified(CommunityTopicPeer::TOPIC_UPDATED_AT))
+    $modified = $this->getModified();
+    if ($this->isTopicModified() && !$modified['topic_updated_at'])
     {
       $this->setTopicUpdatedAt(time());
     }

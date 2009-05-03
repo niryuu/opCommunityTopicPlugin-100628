@@ -30,7 +30,7 @@ class PluginCommunityEventCommentTable extends Doctrine_Table
       ->where('community_event_id = ?', $communityEventId);
 
     $pager = new sfReversibleDoctrinePager('CommunityEventComment', $size);
-    $pager->setCriteria($q);
+    $pager->setQuery($q);
     $pager->setPage($page);
     $pager->setSqlOrderColumn('id');
     $pager->setSqlOrder($order);

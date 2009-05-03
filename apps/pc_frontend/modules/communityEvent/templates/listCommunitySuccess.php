@@ -1,6 +1,6 @@
-<?php use_helper('Date'); ?>
+<?php $acl = opCommunityTopicAclBuilder::buildCollection($community, array($sf_user->getMember())) ?>
 
-<?php if ($community->isCreatableCommunityTopic($sf_user->getMemberId())): ?>
+<?php if ($acl->isAllowed($sf_user->getMemberId(), null, 'view')): ?>
 <?php
 op_include_parts('buttonBox', 'communityEventList', array(
   'title'  => __('Create a new event'),

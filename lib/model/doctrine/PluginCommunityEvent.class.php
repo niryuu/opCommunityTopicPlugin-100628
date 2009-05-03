@@ -39,15 +39,14 @@ abstract class PluginCommunityEvent extends BaseCommunityEvent
 
   public function isEventModified()
   {
-    return (
-      $this->isColumnModified(CommunityEventPeer::NAME) ||
-      $this->isColumnModified(CommunityEventPeer::BODY)
-    );
+    $modified = $this->getModified();
+    return ($modified['name'] || $modified['body']);
   }
 
   public function preSave()
   {
-    if ($this->isEventModified() && !$this->isColumnModified(CommunityEventPeer::EVENT_UPDATED_AT))
+    $modified = $this->getModified();
+    if ($this->isEventModified() && !$modified['event_updated_at'])
     {
       $this->setEventUpdatedAt(time());
     }

@@ -22,10 +22,12 @@ abstract class PluginCommunityEventComment extends BaseCommunityEventComment
     return ($this->getMemberId() === $memberId || $this->getCommunityEvent()->isEditable($memberId));
   }
 
-  public function save($event)
+  public function preSave($event)
   {
-    if ($this->isNew() && !$this->isColumnModified(CommunityEventCommentPeer::NUMBER))
+    $modified = $this->getModified();
+    if ($this->isNew() && empty($modified['number']))
     {
+      $this->getCommunityEvent()->setEventUpdatedAt(date('Y-m-d H:i:s', time()));
       $this->setNumber(Doctrine::getTable('CommunityEventComment')->getMaxNumber($this->getCommunityEventId()) + 1);
     }
   }

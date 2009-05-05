@@ -1,3 +1,4 @@
+<?php use_helper('Date'); ?>
 <?php $acl = opCommunityTopicAclBuilder::buildCollection($community, array($sf_user->getMember())) ?>
 
 <?php if ($acl->isAllowed($sf_user->getMemberId(), null, 'view')): ?>

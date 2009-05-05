@@ -84,7 +84,7 @@ abstract class opCommunityTopicPluginEventActions extends sfActions
    */
   public function executeMemberList($request)
   {
-    $this->forward404Unless($this->community->isViewableCommunityTopic($this->getUser()->getMemberId()));
+    $this->forward404Unless($this->acl->isAllowed($this->getUser()->getMemberId(), null, 'view'));
 
     if (!$this->size)
     {

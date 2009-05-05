@@ -22,11 +22,12 @@ abstract class PluginCommunityTopicComment extends BaseCommunityTopicComment
     return ($this->getMemberId() === $memberId || $this->getCommunityTopic()->isEditable($memberId));
   }
 
-  public function preSave()
+  public function preSave($event)
   {
-    if ($this->isNew() && !$this->isColumnModified(CommunityTopicCommentPeer::NUMBER))
+    $modified = $this->getModified();
+    if ($this->isNew() && empty($modified['number']))
     {
-      $this->setTopicUpdatedAt(time());
+      $this->getCommunityTopic()->setTopicUpdatedAt(date('Y-m-d H:i:s', time()));
       $this->setNumber(Doctrine::getTable('CommunityTopicComment')->getMaxNumber($this->getCommunityTopicId()) + 1);
     }
   }

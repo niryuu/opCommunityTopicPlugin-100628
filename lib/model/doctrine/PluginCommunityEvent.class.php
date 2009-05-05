@@ -40,15 +40,15 @@ abstract class PluginCommunityEvent extends BaseCommunityEvent
   public function isEventModified()
   {
     $modified = $this->getModified();
-    return ($modified['name'] || $modified['body']);
+    return (isset($modified['name']) || isset($modified['body']));
   }
 
   public function preSave()
   {
     $modified = $this->getModified();
-    if ($this->isEventModified() && !$modified['event_updated_at'])
+    if ($this->isEventModified() && empty($modified['event_updated_at']))
     {
-      $this->setEventUpdatedAt(time());
+      $this->setEventUpdatedAt(date('Y-m-d H:i:s', time()));
     }
   }
 
@@ -79,19 +79,18 @@ abstract class PluginCommunityEvent extends BaseCommunityEvent
       $eventMember = new CommunityEventMember();
       $eventMember->setCommunityEventId($this->getId());
       $eventMember->setMemberId($memberId);
-
-      $this->addCommunityEventMember($eventMember);
+      $eventMember->save();
     }
   }
 
   public function isClosed()
   {
-    return (time() > $this->getOpenDate('U'));
+    return (time() > strtotime($this->getOpenDate()));
   }
 
   public function isExpired()
   {
-    return (!is_null($this->getApplicationDeadline()) && time() > $this->getApplicationDeadline('U'));
+    return (!is_null($this->getApplicationDeadline()) && time() > strtotime($this->getApplicationDeadline()));
   }
 
   public function isAtCapacity()

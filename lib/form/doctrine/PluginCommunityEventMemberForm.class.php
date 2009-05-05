@@ -1,11 +1,19 @@
 <?php
 
 /**
+ * This file is part of the OpenPNE package.
+ * (c) OpenPNE Project (http://www.openpne.jp/)
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file and the NOTICE file that were distributed with this source code.
+ */
+
+/**
  * PluginCommunityEventMember form.
  *
- * @package    form
- * @subpackage CommunityEventMember
- * @version    SVN: $Id: sfDoctrineFormTemplate.php 6174 2007-11-27 06:22:40Z fabien $
+ * @package    opCommunityTopicPlugin
+ * @subpackage form
+ * @author     Kousuke Ebihara <ebihara@tejimaya.com>
  */
 abstract class PluginCommunityEventMemberForm extends BaseCommunityEventMemberForm
 {

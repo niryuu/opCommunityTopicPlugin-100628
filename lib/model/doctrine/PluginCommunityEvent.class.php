@@ -85,12 +85,12 @@ abstract class PluginCommunityEvent extends BaseCommunityEvent
 
   public function isClosed()
   {
-    return (time() > strtotime($this->getOpenDate()));
+    return (time() > strtotime($this->getOpenDate().'+1day'));
   }
 
   public function isExpired()
   {
-    return (!is_null($this->getApplicationDeadline()) && time() > strtotime($this->getApplicationDeadline()));
+    return (!is_null($this->getApplicationDeadline()) && time() > strtotime($this->getApplicationDeadline().'+1day'));
   }
 
   public function isAtCapacity()

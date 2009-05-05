@@ -29,7 +29,7 @@ class PluginCommunityTopicTable extends Doctrine_Table
     return $this->createQuery()
       ->where('community_id = ?', $communityId)
       ->limit($limit)
-      ->orderBy('updated_at')
+      ->orderBy('updated_at DESC')
       ->execute();
   }
 
@@ -37,7 +37,7 @@ class PluginCommunityTopicTable extends Doctrine_Table
   {
     $q = $this->createQuery()
       ->where('community_id', $communityId)
-      ->orderBy('updated_at');
+      ->orderBy('updated_at DESC');
     $pager = new sfDoctrinePager('CommunityTopic', $size);
     $pager->setQuery($q);
     $pager->setPage($page);
@@ -52,7 +52,7 @@ class PluginCommunityTopicTable extends Doctrine_Table
     return $this->createQuery()
       ->whereIn('community_id', $communityIds)
       ->limit($limit)
-      ->orderBy('updated_at')
+      ->orderBy('updated_at DESC')
       ->execute();
   }
 
@@ -61,7 +61,7 @@ class PluginCommunityTopicTable extends Doctrine_Table
     $communityIds = Doctrine::getTable('Community')->getIdsByMemberId($memberId);
     $q = $this->createQuery()
       ->whereIn('community_id', $communityIds)
-      ->orderBy('updated_at');
+      ->orderBy('updated_at DESC');
 
     $pager = new sfDoctrinePager('CommunityTopic', $size);
     $pager->setQuery($q);

@@ -27,7 +27,7 @@ class PluginCommunityTopicCommentTable extends Doctrine_Table
   public function getCommunityTopicCommentListPager($communityTopicId, $page = 1, $size = 20, $order = 'DESC')
   {
     $q = $this->createQuery()
-      ->where('community_topic_id', $communityTopicId);
+      ->where('community_topic_id = ?', $communityTopicId);
     
     $pager = new sfReversibleDoctrinePager('CommunityTopicComment', $size);
     $pager->setQuery($q);

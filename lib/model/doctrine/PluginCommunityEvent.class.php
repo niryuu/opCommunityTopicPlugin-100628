@@ -43,7 +43,7 @@ abstract class PluginCommunityEvent extends BaseCommunityEvent
     return (isset($modified['name']) || isset($modified['body']));
   }
 
-  public function preSave()
+  public function preSave($event)
   {
     $modified = $this->getModified();
     if ($this->isEventModified() && empty($modified['event_updated_at']))

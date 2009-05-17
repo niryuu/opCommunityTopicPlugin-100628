@@ -74,8 +74,6 @@ abstract class opCommunityTopicPluginTopicActions extends sfActions
    */
   public function executeShow($request)
   {
-    $this->forward404Unless($this->acl->isAllowed($this->getUser()->getMemberId(), null, 'view'));
-
     $this->form = new CommunityTopicCommentForm();
 
     return sfView::SUCCESS;
@@ -121,8 +119,6 @@ abstract class opCommunityTopicPluginTopicActions extends sfActions
    */
   public function executeEdit($request)
   {
-    $this->forward404Unless($this->communityTopic->isEditable($this->getUser()->getMemberId()));
-
     $this->form = new CommunityTopicForm($this->communityTopic);
     
     return sfView::SUCCESS;
@@ -135,8 +131,6 @@ abstract class opCommunityTopicPluginTopicActions extends sfActions
    */
   public function executeUpdate($request)
   {
-    $this->forward404Unless($this->communityTopic->isEditable($this->getUser()->getMemberId()));
-
     $this->form = new CommunityTopicForm($this->communityTopic);
     $this->processForm($request, $this->form);
 
@@ -145,7 +139,6 @@ abstract class opCommunityTopicPluginTopicActions extends sfActions
     return sfView::SUCCESS;
   }
 
-
   /**
    * Executes deleteConfirm action
    *
@@ -153,8 +146,6 @@ abstract class opCommunityTopicPluginTopicActions extends sfActions
    */
   public function executeDeleteConfirm(sfWebRequest $request)
   {
-    $this->forward404Unless($this->communityTopic->isEditable($this->getUser()->getMemberId()));
-
     $this->form = new sfForm();
     
     return sfView::SUCCESS;
@@ -168,8 +159,6 @@ abstract class opCommunityTopicPluginTopicActions extends sfActions
   public function executeDelete($request)
   {
     $request->checkCSRFProtection();
-
-    $this->forward404Unless($this->communityTopic->isEditable($this->getUser()->getMemberId()));
 
     $this->communityTopic->delete();
 

@@ -38,7 +38,7 @@ abstract class PluginCommunityTopic extends BaseCommunityTopic
     return (isset($modified['name']) || isset($modified['body']));
   }
 
-  public function preSave()
+  public function preSave($event)
   {
     $modified = $this->getModified();
     if ($this->isTopicModified() && empty($modified['topic_updated_at']))

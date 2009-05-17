@@ -89,7 +89,17 @@ class opCommunityTopicAclBuilder extends opAclBuilder
     }
 
     $acl = self::buildCollection($topic->getCommunity(), $targetMembers);
+
+    $role = new Zend_Acl_Role($topic->getMemberId());
+    if ($acl->hasRole($role))
+    {
+      $acl->removeRole($role);
+      $acl->addRole($role, 'writer');
+    }
+
     $acl->allow('member', null, 'addComment');
+    $acl->allow('admin', null, 'edit');
+    $acl->allow('writer', null, 'edit');
 
     self::$resource[$topic->getId()] = $acl;
 

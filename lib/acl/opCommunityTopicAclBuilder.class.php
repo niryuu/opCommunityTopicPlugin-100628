@@ -14,6 +14,7 @@
  * @package    OpenPNE
  * @subpackage acl
  * @author     Kousuke Ebihara <ebihara@tejimaya.com>
+ * @author     Eitarow Fukamachi <fukamachi@tejimaya.com>
  */
 class opCommunityTopicAclBuilder extends opAclBuilder
 {
@@ -21,16 +22,11 @@ class opCommunityTopicAclBuilder extends opAclBuilder
     $collection = array(),
     $resource = array();
 
-  static public function getAcl()
+  static public function clearCache()
   {
-    $acl = new Zend_Acl();
-    $acl->addRole(new Zend_Acl_Role('alien'));
-    $acl->addRole(new Zend_Acl_Role('guest'), 'alien');
-    $acl->addRole(new Zend_Acl_Role('member'), 'guest');
-    $acl->addRole(new Zend_Acl_Role('admin'),  'member');
-    $acl->addRole(new Zend_Acl_Role('writer'), 'member');
-
-    return $acl;
+    self::$collection = array();
+    self::$resource = array();
+    opCommunityAclBuilder::clearCache();
   }
 
   static public function buildCollection($community, $targetMembers = array())
@@ -40,7 +36,8 @@ class opCommunityTopicAclBuilder extends opAclBuilder
       return self::$collection[$community->getId()];
     }
 
-    $acl = self::getAcl();
+    $acl = opCommunityAclBuilder::buildResource($community, $targetMembers);
+    $acl->addRole(new Zend_Acl_Role('writer'), 'member');
 
     if ($community->getConfig('topic_authority') === 'admin_only')
     {
@@ -53,35 +50,8 @@ class opCommunityTopicAclBuilder extends opAclBuilder
 
     if ('auth_commu_member' === $community->getConfig('public_flag'))
     {
+      $acl->deny('guest', null, 'view');
       $acl->allow('member', null, 'view');
-    }
-    else if ('public' === $community->getConfig('public_flag'))
-    {
-      $acl->allow('guest', null, 'view');
-    }
-    else
-    {
-      $acl->allow('alien', null, 'view');
-    }
-
-    foreach ($targetMembers as $member)
-    {
-      if ($member)
-      {
-        $role = new Zend_Acl_Role($member->getId());
-        if ($community->isAdmin($member->getId()))
-        {
-          $acl->addRole($role, 'admin');
-        }
-        elseif ($community->isPrivilegeBelong($member->getId()))
-        {
-          $acl->addRole($role, 'member');
-        }
-        else
-        {
-          $acl->addRole($role, 'guest');
-        }
-      }
     }
 
     self::$collection[$community->getId()] = $acl;
@@ -107,6 +77,8 @@ class opCommunityTopicAclBuilder extends opAclBuilder
     $acl->allow('member', null, 'addComment');
     $acl->allow('admin', null, 'edit');
     $acl->allow('writer', null, 'edit');
+    $acl->allow('admin', null, 'delete');
+    $acl->allow('writer', null, 'delete');
 
     self::$resource[$topic->getId()] = $acl;
 

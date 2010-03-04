@@ -6,7 +6,6 @@ include(dirname(__FILE__).'/../../bootstrap/functional.php');
 include(dirname(__FILE__).'/../../bootstrap/database.php');
 
 $user = new opCommunityTopicTestFunctional(new sfBrowser(), new lime_test(null));
-
 $user
 ->info('Begining scenarios of alien')
 ->info('public_flag: auth_commu_member, topic_authority: admin_only')
@@ -52,6 +51,8 @@ $user
 )
 ;
 
+include(dirname(__FILE__).'/../../bootstrap/database.php');
+opCommunityTopicAclBuilder::clearCache();
 // create a test user: Mr_OpenPNE (community admin)
 $user->login('sns@example.com', 'password');
 $user
@@ -148,6 +149,7 @@ $user
 ;
 
 include(dirname(__FILE__).'/../../bootstrap/database.php');
+opCommunityTopicAclBuilder::clearCache();
 // create a test user: tanaka (topic author)
 $user->login('tanaka@example.com', 'password');
 $user
@@ -191,6 +193,7 @@ $user
 ;
 
 include(dirname(__FILE__).'/../../bootstrap/database.php');
+opCommunityTopicAclBuilder::clearCache();
 // create a test user: sasaki (community member)
 $user->login('sasaki@example.com', 'password');
 $user
@@ -266,9 +269,28 @@ $user
     ),
   )
 )
+->info('public_flag: open, topic_authority: admin_only')
+->scenario(
+  array(
+    'community' => array(
+      'public_flag' => 'open',
+      'topic_authority' => 'admin_only',
+      'allow' => array('view'),
+    ),
+    'communityTopic' => array(
+      'author' => 'admin',
+      'num' => 1,
+      'allow' => array('view'),
+    ),
+    'communityTopicComment' => array(
+      'allow' => array('add'),
+    ),
+  )
+)
 ;
 
 include(dirname(__FILE__).'/../../bootstrap/database.php');
+opCommunityTopicAclBuilder::clearCache();
 // create a test user: yamada (non-community member)
 $user->login('yamada@example.com', 'password');
 $user
@@ -319,6 +341,21 @@ $user
     'communityTopic' => array(
       'author' => 'other',
       'num' => 2,
+      'allow' => array('view'),
+    ),
+  )
+)
+->info('public_flag: open, topic_authority: admin_only')
+->scenario(
+  array(
+    'community' => array(
+      'public_flag' => 'open',
+      'topic_authority' => 'admin_only',
+      'allow' => array('view'),
+    ),
+    'communityTopic' => array(
+      'author' => 'admin',
+      'num' => 1,
       'allow' => array('view'),
     ),
   )

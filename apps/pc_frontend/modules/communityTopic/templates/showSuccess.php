@@ -1,5 +1,5 @@
 <?php use_helper('Date'); ?>
-<?php $acl = opCommunityTopicAclBuilder::buildCollection($community, array($sf_user->getMember())) ?>
+<?php $acl = opCommunityTopicAclBuilder::buildResource($communityTopic, array($sf_user->getMember())) ?>
 
 <div class="dparts topicDetailBox"><div class="parts">
 <div class="partsHeading">
@@ -35,7 +35,7 @@
 
 <?php include_component('communityTopicComment', 'list', array('communityTopic' => $communityTopic)) ?>
 
-<?php if ($acl->isAllowed($role, null, 'add')): ?>
+<?php if ($acl->isAllowed($role, null, 'addComment')): ?>
 <?php
 $options = array();
 $options['title'] = __('Post a new topic comment');

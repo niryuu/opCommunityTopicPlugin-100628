@@ -231,6 +231,7 @@ class opCommunityTopicTestFunctional extends opTestFunctional
       ->checkDispatch('communityTopicComment', 'create');
     }
 
+    opCommunityTopicAclBuilder::clearCache();
     $this->get('/communityTopic/new/'.$communityId);
     if ($this->isAllowed('communityTopic', 'add'))
     {

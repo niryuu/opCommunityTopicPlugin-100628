@@ -125,6 +125,8 @@ abstract class opCommunityTopicPluginTopicActions extends sfActions
    */
   public function executeEdit($request)
   {
+    $this->forward404Unless($this->acl->isAllowed($this->role, null, 'edit'));
+
     $this->form = new CommunityTopicForm($this->communityTopic);
     
     return sfView::SUCCESS;
@@ -137,6 +139,8 @@ abstract class opCommunityTopicPluginTopicActions extends sfActions
    */
   public function executeUpdate($request)
   {
+    $this->forward404Unless($this->acl->isAllowed($this->role, null, 'edit'));
+
     $this->form = new CommunityTopicForm($this->communityTopic);
     $this->processForm($request, $this->form);
 
@@ -152,6 +156,8 @@ abstract class opCommunityTopicPluginTopicActions extends sfActions
    */
   public function executeDeleteConfirm(sfWebRequest $request)
   {
+    $this->forward404Unless($this->acl->isAllowed($this->role, null, 'delete'));
+
     $this->form = new sfForm();
     
     return sfView::SUCCESS;
@@ -164,6 +170,8 @@ abstract class opCommunityTopicPluginTopicActions extends sfActions
    */
   public function executeDelete($request)
   {
+    $this->forward404Unless($this->acl->isAllowed($this->role, null, 'delete'));
+
     $request->checkCSRFProtection();
 
     $this->communityTopic->delete();

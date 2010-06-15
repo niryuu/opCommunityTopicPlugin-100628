@@ -24,6 +24,13 @@ class topicActions extends sfActions
     {
       return sfView::NONE;
     }
+
+    $community = Doctrine::getTable('Community')->find($request->getParameter('id'));
+    if (!$community)
+    {
+      return sfView::NONE;
+    }
+    
     $mailMessage = $request->getMailMessage();
     $validator = new opValidatorString(array('rtrim' => true));
     try
@@ -35,6 +42,7 @@ class topicActions extends sfActions
     {
       return sfView::ERROR;
     }
+    
     $topic = new CommunityTopic();
     $topic->setMemberId($member);
     $topic->setCommunityId($request->getParameter('id'));

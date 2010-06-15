@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<xliff version="1.0">
+  <file orginal="global" source-language="en" datatype="plaintext">
+    <body>
+      <trans-unit id="1">
+        <source>Title and body are required.</source>
+        <target>トピック名と本文を入力して下さい。</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,5 @@
+community_topic_create:
+  url: t.:id
+  class: opMailRoute
+  param: { module: topic, action: create }
+  required: { id: \d+ }

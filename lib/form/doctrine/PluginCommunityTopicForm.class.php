@@ -37,6 +37,7 @@ abstract class PluginCommunityTopicForm extends BaseCommunityTopicForm
       {
         $images = $this->getObject()->getImages();
       }
+      error_log(var_dump(get_class($this->getObject())));
 
       $max = (int)sfConfig::get('app_community_topic_max_image_file_num', 3);
       for ($i = 1; $i <= $max; $i++)
@@ -50,17 +51,29 @@ abstract class PluginCommunityTopicForm extends BaseCommunityTopicForm
         else
         {
           $image = new CommunityTopicImage();
-          $image->setPostId($this->getObject());
-          $image->setNumber($i);
         }
-
         $imageForm = new CommunityTopicImageForm($image);
         $imageForm->getWidgetSchema()->setFormFormatterName('list');
-        $this->embedForm($key, $imageForm, '<ul id="diary_'.$key.'">%content%</u
+        $this->embedForm($key, $imageForm, '<ul id="community_topic_'.$key.'">%content%</u
 l>');
       }
     }
     $this->setWidget('name', new sfWidgetFormInput());
     $this->widgetSchema->getFormFormatter()->setTranslationCatalogue('community_topic_form');
+  }
+
+  public function updateObject($values = null)
+  {
+    foreach ($this->embeddedForms as $key => $form)
+    {
+      //if (!($form->getObject() && $form->getObject()->getFile()))
+      //{
+        unset($this->embeddedForms[$key]);
+      //}
+    }
+
+    $object = parent::updateObject($values);
+
+    return $object;
   }
 }

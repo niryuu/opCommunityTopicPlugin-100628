@@ -11,7 +11,7 @@ class opCommunityTopicPluginImagesListener extends Doctrine_Record_Listener
 
   protected function setFileNamePrefix()
   {
-    $prefix = '%CLASS%_'.$this->id.'_'.$this->number.'_';
+    $prefix = 'ct_'.$this->id.'_'.$this->number.'_';
 
     $file = $this->File;
     $file->setName($prefix.$file->name);
@@ -21,5 +21,10 @@ class opCommunityTopicPluginImagesListener extends Doctrine_Record_Listener
   {
     $this->File->FileBin->delete();
     $this->File->delete();
+  }
+
+  public function postInsert(Doctrine_Event $event)
+  {
+    error_log(var_dump($this));
   }
 }

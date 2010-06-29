@@ -1,0 +1,9 @@
+all:
+  community_topic_is_upload_images:   true
+  community_topic_max_image_file_num: 3
+  community_topic_comment_is_upload_images:   true
+  community_topic_comment_max_image_file_num: 3
+  community_event_is_upload_images:   true
+  community_event_max_image_file_num: 3
+  community_event_comment_is_upload_images:   true
+  community_event_comment_max_image_file_num: 3

@@ -37,7 +37,6 @@ abstract class PluginCommunityTopicForm extends BaseCommunityTopicForm
       {
         $images = $this->getObject()->getImages();
       }
-      error_log(var_dump(get_class($this->getObject())));
 
       $max = (int)sfConfig::get('app_community_topic_max_image_file_num', 3);
       for ($i = 1; $i <= $max; $i++)
@@ -66,10 +65,10 @@ l>');
   {
     foreach ($this->embeddedForms as $key => $form)
     {
-      //if (!($form->getObject() && $form->getObject()->getFile()))
-      //{
+      /*if (!($form->getObject() && $form->getObject()->getFile()))
+      {
         unset($this->embeddedForms[$key]);
-      //}
+      }*/
     }
 
     $object = parent::updateObject($values);

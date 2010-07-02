@@ -23,8 +23,9 @@ class opCommunityTopicPluginImagesListener extends Doctrine_Record_Listener
     $this->File->delete();
   }
 
-  public function postInsert(Doctrine_Event $event)
+  public function preInsert(Doctrine_Event $event)
   {
-    error_log(var_dump($this));
+    $invoker = $event->getInvoker();
+    error_log(var_dump($invoker));
   }
 }

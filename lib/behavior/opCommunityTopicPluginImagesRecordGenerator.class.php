@@ -5,7 +5,7 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
   protected $_options = array(
     'className'     => '%CLASS%Image',
     'tableName'     => '%TABLE%_image',
-    'generateFiles' => false,
+    'generateFiles' => true,
     'table'         => false,
     'pluginTable'   => false,
     'children'      => array(),

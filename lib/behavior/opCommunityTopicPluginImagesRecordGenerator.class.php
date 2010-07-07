@@ -16,6 +16,15 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
 
   public function __construct($options)
   {
+    $builderOptions = array(
+      'suffix' =>  '.class.php',
+      'baseClassesDirectory' => 'base',
+      'generateBaseClasses' => true,
+      'generateTableClasses' => true,
+      'baseClassName' => 'opDoctrineRecord'
+    );
+    $this->setOption('generatePath', sfConfig::get('sf_lib_dir') . '/model/doctrine/opCommunityTopicPlugin');
+    $this->setOption('builderOptions', $builderOptions);
     $this->_options = Doctrine_Lib::arrayDeepMerge($this->_options, $options);
   }
 

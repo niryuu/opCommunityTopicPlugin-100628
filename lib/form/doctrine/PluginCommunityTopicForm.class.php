@@ -50,7 +50,7 @@ abstract class PluginCommunityTopicForm extends BaseCommunityTopicForm
         else
         {
           $image = new CommunityTopicImage();
-          $image->setCommunityTopic($this->getObject()->getId());
+          $image->setImages($this->getObject());
           $image->setNumber($i);  
         }
         $imageForm = new CommunityTopicImageForm($image);

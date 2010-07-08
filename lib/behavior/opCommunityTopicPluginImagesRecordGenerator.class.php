@@ -49,12 +49,6 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
   {
     parent::setUp();
 
-    $this->hasOne($this->getTable()->getComponentName(), array(
-      'local' => 'post_id',
-      'foreign' => 'id',
-      'onDelete' => 'cascade',
-    ));
-
     $this->hasOne('File', array(
       'local' => 'file_id',
       'foreign' => 'id',

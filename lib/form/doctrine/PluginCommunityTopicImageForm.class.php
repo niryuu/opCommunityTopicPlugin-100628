@@ -46,7 +46,6 @@ ze' => 40)));
 
   public function updateObject($values = null)
   {
-    error_log(var_dump(get_object_vars($this)));/*
     if ($values['photo'] instanceof sfValidatedFile)
     {
       if (!$this->isNew())
@@ -67,6 +66,6 @@ ze' => 40)));
       }
 
       $this->getObject()->setFile(null);
-    }*/
+    }
   }
 }

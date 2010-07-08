@@ -50,6 +50,8 @@ abstract class PluginCommunityTopicForm extends BaseCommunityTopicForm
         else
         {
           $image = new CommunityTopicImage();
+          $image->setCommunityTopic($this->getObject()->getId());
+          $image->setNumber($i);  
         }
         $imageForm = new CommunityTopicImageForm($image);
         $imageForm->getWidgetSchema()->setFormFormatterName('list');
@@ -63,15 +65,15 @@ l>');
 
   public function updateObject($values = null)
   {
+    $object = parent::updateObject($values);
+
     foreach ($this->embeddedForms as $key => $form)
     {
-      /*if (!($form->getObject() && $form->getObject()->getFile()))
+      if (!($form->getObject() && $form->getObject()->getFile()))
       {
         unset($this->embeddedForms[$key]);
-      }*/
+      }
     }
-
-    $object = parent::updateObject($values);
 
     return $object;
   }

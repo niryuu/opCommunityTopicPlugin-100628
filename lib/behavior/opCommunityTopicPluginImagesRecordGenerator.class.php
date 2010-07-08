@@ -49,6 +49,12 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
   {
     parent::setUp();
 
+    $this->hasOne($this->getTable()->getComponentName(), array(
+      'local' => 'post_id',
+      'foreign' => 'id',
+      'onDelete' => 'cascade',
+    ));
+
     $this->hasOne('File', array(
       'local' => 'file_id',
       'foreign' => 'id',
@@ -58,7 +64,6 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
 
   public function initOptions()
   {
-    //$generatePath = sfConfig::get('sf_lib_dir').'/model/doctrine/opCommunityTopicPlugin';
     $builderOptions  = array(
       'suffix' =>  '.class.php',
       'baseClassesDirectory' => 'base',

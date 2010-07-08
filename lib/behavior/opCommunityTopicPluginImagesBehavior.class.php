@@ -6,13 +6,12 @@ class opCommunityTopicPluginImagesBehavior extends Doctrine_Template
   {
     parent::__construct($options);
 
-    $this->_plugin = new opCommunityTopicPluginImagesRecordGenerator($this->_options);
+    $this->_plugin = new opCommunityTopicPluginImagesRecordGenerator($this->getOptions());
   }
 
   public function setUp()
   {
-    error_log(var_dump('behavior called'));
-    $this->_plugin->initialize($this->_table);
+    $this->_plugin->initialize($this->getTable());
     $this->addListener(new opCommunityTopicPluginImagesListener($this->_options));
   }
 }

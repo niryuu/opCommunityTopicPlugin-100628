@@ -70,8 +70,6 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
     $this->setOption('tableName', '%TABLE%_image');
     $this->setOption('generateFiles', true);
     $this->setOption('generatePath', sfConfig::get('sf_lib_dir') . '/model/doctrine/opCommunityTopicPlugin');
-    $this->setOption('table', false);
-    $this->setOption('pluginTable', false);
     $this->setOption('children', array());
     $this->setOption('options', array());
     $this->setOption('cascadeDelete', true);

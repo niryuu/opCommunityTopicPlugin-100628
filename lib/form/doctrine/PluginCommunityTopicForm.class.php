@@ -35,7 +35,7 @@ abstract class PluginCommunityTopicForm extends BaseCommunityTopicForm
       $images = array();
       if (!$this->isNew())
       {
-        $images = $this->getObject()->getImages();
+        $images = $this->getObject()->getImagesWithNumber();
       }
 
       $max = (int)sfConfig::get('app_community_topic_max_image_file_num', 3);
@@ -50,13 +50,12 @@ abstract class PluginCommunityTopicForm extends BaseCommunityTopicForm
         else
         {
           $image = new CommunityTopicImage();
-          $image->setImages($this->getObject());
+          $image->setCommunityTopic($this->getObject());
           $image->setNumber($i);  
         }
         $imageForm = new CommunityTopicImageForm($image);
         $imageForm->getWidgetSchema()->setFormFormatterName('list');
-        $this->embedForm($key, $imageForm, '<ul id="community_topic_'.$key.'">%content%</u
-l>');
+        $this->embedForm($key, $imageForm, '<ul id="community_topic_'.$key.'">%content%</ul>');
       }
     }
     $this->setWidget('name', new sfWidgetFormInput());

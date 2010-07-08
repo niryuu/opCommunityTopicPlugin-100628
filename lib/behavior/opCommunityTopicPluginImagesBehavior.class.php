@@ -12,6 +12,5 @@ class opCommunityTopicPluginImagesBehavior extends Doctrine_Template
   public function setUp()
   {
     $this->_plugin->initialize($this->getTable());
-    $this->addListener(new opCommunityTopicPluginImagesListener($this->_options));
   }
 }

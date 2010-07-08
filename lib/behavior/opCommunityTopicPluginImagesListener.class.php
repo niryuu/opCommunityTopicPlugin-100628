@@ -2,30 +2,23 @@
 
 class opCommunityTopicPluginImagesListener extends Doctrine_Record_Listener
 {
-  public function save(Doctrine_Connection $conn = null)
+  public function preInsert(Doctrine_Event $event)
   {
-    $this->setFileNamePrefix();
-
-    return parent::save($conn);
+    $this->setFileNamePrefix($event->getInvoker());
   }
 
-  protected function setFileNamePrefix()
+  protected function setFileNamePrefix($invoker)
   {
-    $prefix = 'ct_'.$this->id.'_'.$this->number.'_';
+    $prefix = ct . '_' . $invoker->getId() . '_' . $invoker->getNumber() . '_';
 
-    $file = $this->File;
+    $file = $invoker->File;
     $file->setName($prefix.$file->name);
   }
 
   public function postDelete(Doctrine_Event $event)
   {
-    $this->File->FileBin->delete();
-    $this->File->delete();
-  }
-
-  public function preInsert(Doctrine_Event $event)
-  {
     $invoker = $event->getInvoker();
-    error_log(var_dump($invoker));
+    $invoker->File->FileBin->delete();
+    $invoker->File->delete();
   }
 }

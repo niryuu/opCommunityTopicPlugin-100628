@@ -23,8 +23,7 @@ abstract class PluginCommunityTopicImageForm extends BaseCommunityTopicImageForm
         'file_src'     => '',
         'is_image'     => true,
         'with_delete'  => true,
-        'delete_label' => sfContext::getInstance()->getI18N()->__('remove the cu
-rrent photo'),
+        'delete_label' => sfContext::getInstance()->getI18N()->__('remove the current photo'),
         'label'        => false,
         'edit_mode'    => !$this->isNew(),
         );
@@ -32,16 +31,12 @@ rrent photo'),
     if (!$this->isNew())
     {
       sfContext::getInstance()->getConfiguration()->loadHelpers('Partial');
-      $options['template'] = get_partial('communityTopic/formEditImage', array('image' =>
- $this->getObject()));
-      $this->setValidator($key.'_delete', new sfValidatorBoolean(array('required
-' => false)));
+      $options['template'] = get_partial('communityTopic/formEditImage', array('image' => $this->getObject()));
+      $this->setValidator($key.'_delete', new sfValidatorBoolean(array('required' => false)));
     }
 
-    $this->setWidget($key, new sfWidgetFormInputFileEditable($options, array('si
-ze' => 40)));
-    $this->setValidator($key, new opValidatorImageFile(array('required' => false
-)));
+    $this->setWidget($key, new sfWidgetFormInputFileEditable($options, array('size' => 40)));
+    $this->setValidator($key, new opValidatorImageFile(array('required' => false)));
   }
 
   public function updateObject($values = null)

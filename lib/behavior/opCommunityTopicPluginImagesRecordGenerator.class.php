@@ -16,6 +16,11 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
 
   public function setTableDefinition()
   {
+    $this->hasColumn('id', 'integer', 4, array(
+      'type' => 'integer',
+      'primary'  => true, 
+      'autoincrement' =>  true,
+    ));
     $this->hasColumn('file_id', 'integer', 4, array(
       'type' => 'integer',
       'notnull' => true,
@@ -25,12 +30,6 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
     $this->hasColumn('number', 'integer', 4, array(
       'type' => 'integer',
       'notnull' => true,
-      'length' => 4,
-    ));
-
-    $this->hasColumn('post_id', 'integer', 4, array(
-      'type' => 'integer',
-      'notnull' =>true,
       'length' => 4,
     ));
 
@@ -54,6 +53,7 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
       'foreign' => 'id',
       'onDelete' => 'cascade',
     ));
+    $this->addListener(new opCommunityTopicPluginImagesListener($this->_options));
   }
 
   public function initOptions()

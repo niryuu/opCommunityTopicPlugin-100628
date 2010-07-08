@@ -85,7 +85,7 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
     $definition['actAs'] = $table->getTemplates();
     $definition['generate_once'] = true;
     $generatedclass = $this->generateClass($definition);
-    Doctrine::loadModels(sfConfig::get('sf_lib_dir') . '/model/doctrine/opCommunityTopicPlugin');
+    Doctrine::loadModels(sfConfig::get('sf_lib_dir') . '/model/doctrine/opCommunityTopicPlugin/base/');
     return $generatedclass;
   }
 }

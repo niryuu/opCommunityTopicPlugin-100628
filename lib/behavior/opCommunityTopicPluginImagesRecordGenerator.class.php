@@ -58,6 +58,7 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
 
   public function initOptions()
   {
+    //$generatePath = sfConfig::get('sf_lib_dir').'/model/doctrine/opCommunityTopicPlugin';
     $builderOptions  = array(
       'suffix' =>  '.class.php',
       'baseClassesDirectory' => 'base',
@@ -78,7 +79,7 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
     $this->setOption('builderOptions', $builderOptions);
   }
 
-  public function generateClassFromTable(Doctrine_Table $table).
+  public function generateClassFromTable(Doctrine_Table $table)
   {
     $definition = array();
     $definition['columns'] = $table->getColumns();

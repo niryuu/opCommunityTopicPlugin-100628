@@ -21,6 +21,7 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
       'primary'  => true, 
       'autoincrement' =>  true,
     ));
+
     $this->hasColumn('file_id', 'integer', 4, array(
       'type' => 'integer',
       'notnull' => true,

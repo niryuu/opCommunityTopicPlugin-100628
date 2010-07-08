@@ -9,7 +9,7 @@ class opCommunityTopicPluginImagesListener extends Doctrine_Record_Listener
 
   protected function setFileNamePrefix($invoker)
   {
-    $prefix = ct . '_' . $invoker->getId() . '_' . $invoker->getNumber() . '_';
+    $prefix = 'ct' . '_' . $invoker->getId() . '_' . $invoker->getNumber() . '_';
 
     $file = $invoker->File;
     $file->setName($prefix.$file->name);

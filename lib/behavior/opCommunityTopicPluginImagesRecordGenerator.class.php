@@ -11,7 +11,6 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
   public function buildRelation()
   {
     $this->buildForeignRelation('Images');
-    $this->buildLocalRelation();
   }
 
   public function setTableDefinition()
@@ -20,6 +19,12 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
       'type' => 'integer',
       'primary'  => true, 
       'autoincrement' =>  true,
+    ));
+
+    $this->hasColumn('post_id', 'integer', 4, array(
+      'type' => 'integer',
+      'notnull' => true,
+      'length' => 4,
     ));
 
     $this->hasColumn('file_id', 'integer', 4, array(
@@ -48,6 +53,12 @@ class opCommunityTopicPluginImagesRecordGenerator extends Doctrine_Record_Genera
   public function setUp()
   {
     parent::setUp();
+
+    $this->hasOne($this->_options['table']->getComponentName(), array(
+      'local' => 'post_id',
+      'foreign' => 'id',
+      'onDelete' => 'cascade',
+    ));
 
     $this->hasOne('File', array(
       'local' => 'file_id',

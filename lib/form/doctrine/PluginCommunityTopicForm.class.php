@@ -68,7 +68,7 @@ abstract class PluginCommunityTopicForm extends BaseCommunityTopicForm
 
     foreach ($this->embeddedForms as $key => $form)
     {
-      if (!($form->getObject() && $form->getObject()->getFile()))
+      if (!($form->getObject() && $form->getObject()->File != null))
       {
         unset($this->embeddedForms[$key]);
       }

@@ -60,7 +60,7 @@ abstract class PluginCommunityTopicImageForm extends BaseCommunityTopicImageForm
         $this->getObject()->getFile()->delete();
       }
 
-      $this->getObject()->setFile(null);
+      $this->getObject()->File = null;
     }
   }
 }

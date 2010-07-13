@@ -242,7 +242,7 @@ abstract class opCommunityTopicPluginTopicActions extends sfActions
     if ($form->isValid())
     {
       $communityTopic = $form->save();
-      //$this->redirect('@communityTopic_show?id='.$communityTopic->getId());
+      $this->redirect('@communityTopic_show?id='.$communityTopic->getId());
     }
   }
 }
